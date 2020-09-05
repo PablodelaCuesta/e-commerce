@@ -41,9 +41,14 @@ namespace Core.Migrations
                     b.Property<int>("ProductBrandId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("ProductTypeId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ProductBrandId");
+
+                    b.HasIndex("ProductTypeId");
 
                     b.ToTable("Products");
                 });
@@ -86,7 +91,7 @@ namespace Core.Migrations
 
                     b.HasOne("Models.Entities.ProductType", "ProductType")
                         .WithMany()
-                        .HasForeignKey("ProductBrandId")
+                        .HasForeignKey("ProductTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

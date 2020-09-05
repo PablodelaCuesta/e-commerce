@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Core.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20200905104213_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20200905180549_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,9 +43,14 @@ namespace Core.Migrations
                     b.Property<int>("ProductBrandId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("ProductTypeId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ProductBrandId");
+
+                    b.HasIndex("ProductTypeId");
 
                     b.ToTable("Products");
                 });
@@ -88,7 +93,7 @@ namespace Core.Migrations
 
                     b.HasOne("Models.Entities.ProductType", "ProductType")
                         .WithMany()
-                        .HasForeignKey("ProductBrandId")
+                        .HasForeignKey("ProductTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
