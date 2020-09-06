@@ -14,37 +14,42 @@ namespace API.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IProductsRepository _repo;
+        private readonly IGenericRepository<Product> _productsRepo;
+        private readonly IGenericRepository<ProductBrand> _productBrandRepo;
+        private readonly IGenericRepository<ProductType> _productTypeRepo;
 
-        public ProductsController(IProductsRepository repository)
+        public ProductsController(IGenericRepository<Product> productsRepo, IGenericRepository<ProductBrand> productBrandRepo, IGenericRepository<ProductType> productTypeRepo)
         {
-            _repo = repository;
+            _productsRepo = productsRepo;
+            _productBrandRepo = productBrandRepo;
+            _productTypeRepo = productTypeRepo;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<Product>>> GetProductsAsync()
         {
-            IReadOnlyList<Product> products = await _repo.GetProductsAsync();
+            IReadOnlyList<Product> products = await _productsRepo.GetAllAsync();
             return Ok(products);
         }
 
         [HttpGet("{productId}")]
         public async Task<ActionResult<Product>> GetProduct(int productId)
         {
-            Product product = await _repo.GetProductByIdAsync(productId);
+            Product product = await _productsRepo.GetByIdAsync(productId);
             return Ok(product);
         }
 
         [HttpGet("brands")]
         public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductsBrands()
         {
-            IReadOnlyList<ProductBrand> result = await _repo.GetAllProductBrand();
+            IReadOnlyList<ProductBrand> result = await _productBrandRepo.GetAllAsync();
             return Ok(result);
         }
 
         [HttpGet("types")]
         public async Task<ActionResult<IReadOnlyList<ProductType>>> GetProductsTypes()
         {
-            IReadOnlyList<ProductType> result = await _repo.GetAllProductType();
+            IReadOnlyList<ProductType> result = await _productTypeRepo.GetAllAsync();
             return Ok(result);
         }
     }

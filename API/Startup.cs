@@ -29,6 +29,7 @@ namespace API
 
             // Adding repository services
             services.AddScoped<IProductsRepository, ProductRepository>();
+            services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
