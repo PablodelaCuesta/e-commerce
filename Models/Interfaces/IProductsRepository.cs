@@ -8,6 +8,9 @@ namespace Models.Interfaces
     {
         Task<Product> GetProductByIdAsync(int productId);
         Task<IReadOnlyList<Product>> GetProductsAsync();
+        Task<ProductBrand> GetProductBrand(int brandId);
+        Task<IReadOnlyList<ProductBrand>> GetAllProductBrand();
+        Task<IReadOnlyList<ProductType>> GetAllProductType();
         
     }
 }
