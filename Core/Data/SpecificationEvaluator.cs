@@ -9,7 +9,7 @@ namespace Core.Data
     {
         public static IQueryable<TEntity> GetQueryable(IQueryable<TEntity> inputQuery, ISpecification<TEntity> spec)
         {
-            var query = inputQuery;
+            IQueryable<TEntity> query = inputQuery;
 
             if (spec.Criteria != null)
             {

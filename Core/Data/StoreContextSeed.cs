@@ -16,7 +16,9 @@ namespace Core.Data
             {
                 if (!context.ProductBrands.Any())
                 {
-                    var brandsData =  File.ReadAllText("../Core/Seeder/brands.json");
+                    var brandsData =  File.ReadAllText("../Core/Seeder/brands.json")
+                        .AsParallel()
+                        .ToString();
                     var brands = JsonSerializer.Deserialize<List<ProductBrand>>(brandsData);
 
                     foreach (ProductBrand item in brands)

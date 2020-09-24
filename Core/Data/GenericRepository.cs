@@ -22,6 +22,11 @@ namespace Core.Data
             return await _context.Set<T>().ToListAsync();
         }
 
+        /// <summary>
+        /// This generic method allow us to get a particual item by id. 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<T> GetByIdAsync(int id)
         {
             return await _context.Set<T>().FindAsync(id);
@@ -37,6 +42,11 @@ namespace Core.Data
             return await ApplySpecification(spec).ToListAsync();
         }
 
+        /// <summary>
+        /// Allow us apply a specification to a entity.
+        /// </summary>
+        /// <param name="spec"></param>
+        /// <returns></returns>
         private IQueryable<T> ApplySpecification(ISpecification<T> spec)
         {
             return SpecificationEvaluator<T>.GetQueryable(_context.Set<T>().AsQueryable(), spec);
