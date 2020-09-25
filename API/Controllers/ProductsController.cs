@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Models.DTO;
-using Core.Data;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Models.Entities;
 using Models.Interfaces;
 using Models.Specifications;
+using Microsoft.Extensions.Configuration;
+using API.DTO;
 
 namespace API.Controllers
 {
@@ -16,14 +15,17 @@ namespace API.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IGenericRepository<Product> _productsRepo;
+        private readonly IConfiguration _config;
         private readonly IGenericRepository<ProductBrand> _productBrandRepo;
         private readonly IGenericRepository<ProductType> _productTypeRepo;
 
         public ProductsController(IGenericRepository<Product> productsRepo, 
             IGenericRepository<ProductBrand> productBrandRepo, 
-            IGenericRepository<ProductType> productTypeRepo)
+            IGenericRepository<ProductType> productTypeRepo,
+            IConfiguration configuration)
         {
             _productsRepo = productsRepo;
+            _config = configuration;
             _productBrandRepo = productBrandRepo;
             _productTypeRepo = productTypeRepo;
         }
@@ -38,7 +40,7 @@ namespace API.Controllers
             IReadOnlyList<Product> products = await _productsRepo.ListAsync(spec);
 
             //Shape our data with DTO
-            IReadOnlyList<ProductToReturnDTO> result = products.AsParallel().Select(product => new ProductToReturnDTO(product)).ToList();
+            IReadOnlyList<ProductToReturnDTO> result = products.AsParallel().Select(product => new ProductToReturnDTO(product, _config)).ToList();
 
             return Ok(result);
         }
@@ -51,7 +53,7 @@ namespace API.Controllers
             Product product = await _productsRepo.GetEntityWithSpec(spec);
 
             // Shape our data with DTO
-            ProductToReturnDTO result = new ProductToReturnDTO(product);
+            ProductToReturnDTO result = new ProductToReturnDTO(product, _config);
 
             return Ok(result);
         }
