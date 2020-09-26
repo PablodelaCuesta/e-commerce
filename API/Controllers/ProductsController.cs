@@ -7,6 +7,8 @@ using Models.Interfaces;
 using Models.Specifications;
 using Microsoft.Extensions.Configuration;
 using API.DTO;
+using API.Errors;
+using Microsoft.AspNetCore.Http;
 
 namespace API.Controllers
 {
@@ -46,11 +48,15 @@ namespace API.Controllers
         }
 
         [HttpGet("{productId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Product>> GetProduct(int productId)
         {
             // Product product = await _productsRepo.GetByIdAsync(productId);
             ProductsWithTypesAndBrandsSpecification spec = new ProductsWithTypesAndBrandsSpecification(productId);
             Product product = await _productsRepo.GetEntityWithSpec(spec);
+
+            if (product is null) return NotFound(new ApiResponse(404));
 
             // Shape our data with DTO
             ProductToReturnDTO result = new ProductToReturnDTO(product, _config);
