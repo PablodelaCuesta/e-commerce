@@ -33,10 +33,10 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Product>>> GetProducts()
+        public async Task<ActionResult<List<Product>>> GetProducts(string sort)
         {
             // IReadOnlyList<Product> products = await _productsRepo.GetAllAsync();
-            ProductsWithTypesAndBrandsSpecification spec = new ProductsWithTypesAndBrandsSpecification();
+            ProductsWithTypesAndBrandsSpecification spec = new ProductsWithTypesAndBrandsSpecification(sort);
             
             // Return from database
             IReadOnlyList<Product> products = await _productsRepo.ListAsync(spec);
