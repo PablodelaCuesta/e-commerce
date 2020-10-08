@@ -1,7 +1,7 @@
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Models.Entities;
-using Models.Specifications;
+using Models.Interfaces;
 
 namespace Core.Data
 {
