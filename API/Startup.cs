@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Models.Interfaces;
+using StackExchange.Redis;
 
 namespace API
 {
@@ -32,6 +33,12 @@ namespace API
             
             // Database configuration
             services.AddDbContext<StoreContext>(options => options.UseSqlite(_config.GetConnectionString("DefaultConnection")));
+
+            // Redis
+            services.AddSingleton<IConnectionMultiplexer>(redis => {
+                var configuration = ConfigurationOptions.Parse(_config.GetConnectionString("Redis"), true);
+                return ConnectionMultiplexer.Connect(configuration);
+            });
 
             // Adding services
             services.AddApplicationServices();
