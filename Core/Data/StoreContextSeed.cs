@@ -52,6 +52,18 @@ namespace Core.Data
 
                     await context.SaveChangesAsync();
                 }
+                if (!context.DeliveryMethods.Any())
+                {
+                    var dmData =  File.ReadAllText("../Core/Seeder/delivery.json");
+                    var methods = JsonSerializer.Deserialize<List<DeliveryMethod>>(dmData);
+
+                    foreach (DeliveryMethod item in methods)
+                    {
+                        context.DeliveryMethods.Add(item);
+                    }
+
+                    await context.SaveChangesAsync();
+                }
             }
             catch (System.Exception ex)
             {
