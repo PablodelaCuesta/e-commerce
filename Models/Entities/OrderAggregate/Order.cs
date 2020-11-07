@@ -5,6 +5,22 @@ namespace Models.Entities
 {
     public class Order : BaseEntity
     {
+        public Order()
+        {
+        }
+
+        public Order(string buyerEmail, DateTimeOffset orderDate, Address shipToAddress, DeliveryMethod deliveryMethod, List<OrderItem> orderItems, decimal subtotal, OrderStatus status, int paymentIntentId)
+        {
+            BuyerEmail = buyerEmail;
+            OrderDate = orderDate;
+            ShipToAddress = shipToAddress;
+            DeliveryMethod = deliveryMethod;
+            OrderItems = orderItems;
+            Subtotal = subtotal;
+            Status = status;
+            PaymentIntentId = paymentIntentId;
+        }
+
         public string BuyerEmail { get; set; }
         public DateTimeOffset OrderDate { get; set; }
         public Address ShipToAddress { get; set; }

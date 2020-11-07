@@ -1,18 +1,9 @@
-using Models.DTO;
-
-namespace Models.Entities
+namespace Models.DTO
 {
-    public class Address
+    public class AddressDTO
     {
-        public Address()
-        {
-        }
-        public Address(AddressDTO addressDTO)
-        {
-            
-        }
 
-        public Address(string firstName, string lastName, string street, string city, string state, string zipcode)
+        public AddressDTO(string firstName, string lastName, string street, string city, string state, string zipcode)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -28,6 +19,5 @@ namespace Models.Entities
         public string City { get; set; }
         public string State { get; set; }
         public string Zipcode { get; set; }
-
     }
 }

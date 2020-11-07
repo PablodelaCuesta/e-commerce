@@ -1,6 +1,7 @@
 using System.Linq;
 using API.Errors;
 using Core.Data;
+using Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Models.Interfaces;
@@ -12,6 +13,8 @@ namespace API.Extensions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<IProductsRepository, ProductRepository>();
+
+            services.AddScoped<IOrderService, OrderService>();
             
             services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
 

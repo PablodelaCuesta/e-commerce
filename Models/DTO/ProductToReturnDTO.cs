@@ -1,18 +1,16 @@
-using Microsoft.Extensions.Configuration;
 using Models.Entities;
-using API.Helpers;
 
-namespace API.DTO
+namespace Models.DTO
 {
     public class ProductToReturnDTO
     {
-        public ProductToReturnDTO(Product product, IConfiguration config)
+        public ProductToReturnDTO(Product product)
         {
             this.Id = product.Id;
             this.Name = product.Name;
             this.Description = product.Description;
             this.Price = product.Price;
-            this.PictureUrl = new ProductUrlResolver(config).Resolve(product.PictureUrl);
+            this.PictureUrl = product.PictureUrl;
             this.ProductType = product.ProductType.Name;
             this.ProductBrand = product.ProductBrand.Name;
         }

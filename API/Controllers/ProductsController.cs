@@ -6,11 +6,11 @@ using Models.Entities;
 using Models.Interfaces;
 using Models.Specifications;
 using Microsoft.Extensions.Configuration;
-using API.DTO;
 using API.Errors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using API.Helpers;
+using Models.DTO;
 
 namespace API.Controllers
 {
@@ -51,8 +51,14 @@ namespace API.Controllers
             int totalItems = await _productsRepo.CountAsync(countspec);
 
 
-            //Shape our data with DTO
-            IReadOnlyList<ProductToReturnDTO> result = products.Select(product => new ProductToReturnDTO(product, _config)).ToList();
+            //Shape our data with DTO and Resolve Url
+            List<ProductToReturnDTO> result = new List<ProductToReturnDTO>();
+            foreach (Product product in products)
+            {
+                product.PictureUrl = new ProductUrlResolver(_config).Resolve(product.PictureUrl);
+                ProductToReturnDTO productDTO = new ProductToReturnDTO(product);
+                result.Add(productDTO);
+            }
 
             return Ok(new Pagination<ProductToReturnDTO>(productParams.PageIndex, productParams.PageSize, totalItems, result));
         }
@@ -69,7 +75,7 @@ namespace API.Controllers
             if (product is null) return NotFound(new ApiResponse(404));
 
             // Shape our data with DTO
-            ProductToReturnDTO result = new ProductToReturnDTO(product, _config);
+            ProductToReturnDTO result = new ProductToReturnDTO(product);
 
             return Ok(result);
         }
