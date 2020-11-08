@@ -5,8 +5,18 @@ namespace Models.Entities
 {
     public class Order : BaseEntity
     {
+
         public Order()
         {
+        }
+
+        public Order(List<OrderItem> items, string buyerEmail, Address shippingAddress, DeliveryMethod deliveryMethod, decimal subtotal)
+        {
+            OrderItems = items;
+            BuyerEmail = buyerEmail;
+            ShipToAddress = shippingAddress;
+            DeliveryMethod = deliveryMethod;
+            Subtotal = subtotal;
         }
 
         public Order(string buyerEmail, DateTimeOffset orderDate, Address shipToAddress, DeliveryMethod deliveryMethod, List<OrderItem> orderItems, decimal subtotal, OrderStatus status, int paymentIntentId)
